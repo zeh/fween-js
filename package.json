@@ -9,12 +9,15 @@
   "author": "Zeh Fernando",
   "homepage": "https://github.com/zeh/typescript-tidbits",
   "devDependencies": {
+    "amd-optimize": "^0.5.0",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-sourcemaps": "^1.5.1",
     "gulp-typescript": "^2.6.0",
     "gulp-uglify": "^1.1.0",
+    "gulp-webserver": "^0.9.1",
+    "run-sequence": "^1.0.2",
     "typescript": "Microsoft/TypeScript"
   }
 }
