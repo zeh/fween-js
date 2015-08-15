@@ -63,26 +63,26 @@ gulp.task('compile-es6', function() {
 });
 
 gulp.task('minify', function () {
-	return gulp.src(options.buildES5Single + '/**/*.js')
+	return gulp.src(options.buildES5Single + '/fween.js')
 		.pipe(uglify()).on('error', logError)
-		.pipe(concat('fween.js'))
+		.pipe(concat('fween.min.js'))
 		.pipe(gulp.dest(options.buildES5Minified));
 });
 
 gulp.task('build', function() {
-	runSequence('clean', ['compile-es5', 'compile-es6'], 'compile-es5-modules', 'minify');
+	runSequence('clean', ['compile-es5-modules', 'compile-es6'], 'compile-es5', 'minify');
 });
 
 /**
  * Serves the web app (same process)
  */
 gulp.task('serve-reloading', function(cb) {
-	gulp.src("examples/test/index.html")
+	gulp.src("./")
 		.pipe(server({
 			livereload: true,
 			directoryListing: {
 				enable: true,
-				path: "examples/test/"
+				path: "./"
 			},
 			open: false
 		}));
@@ -92,12 +92,12 @@ gulp.task('serve-reloading', function(cb) {
  * Serves the web app (same process)
  */
 gulp.task('serve', function(cb) {
-	gulp.src("examples/test/index.html")
+	gulp.src("./")
 		.pipe(server({
 			livereload: false,
 			directoryListing: {
 				enable: true,
-				path: "examples/test/"
+				path: "./"
 			},
 			open: false
 		}));
