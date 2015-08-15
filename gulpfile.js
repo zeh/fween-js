@@ -43,7 +43,13 @@ gulp.task('compile-es5-modules', function() {
 
 gulp.task('compile-es5', function() {
 	return gulp.src(options.buildES5Modules + '/transitions/Fween.js')
-        .pipe(amdOptimize('Fween'))
+        .pipe(amdOptimize('Fween'), {
+			findNestedDependencies: true,
+			baseUrl: "./" + options.buildES5Modules,
+			paths: {
+				"Easing": "./" + options.buildES5Modules + "/transitions/Easing.js"
+			}
+		})
         .pipe(concat('fween.js'))
         .pipe(gulp.dest(options.buildES5Single));
 });
