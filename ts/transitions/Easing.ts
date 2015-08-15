@@ -18,10 +18,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 /**
- * @author Zeh Fernando - z at zeh.com.br
- * Based on Robert Penner's easing equations - remade from Tweener's equations but SIMPLIFIED
+ * @author Zeh Fernando
+ * Based on Robert Penner's easing equations - remade from Tweener's equations, but simplified
  * Not fully tested!
  */
+
 export default class Easing {
 
 	// Constants
