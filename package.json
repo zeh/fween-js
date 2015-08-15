@@ -1,0 +1,20 @@
+{
+  "name": "fween-js",
+  "version": "1.0.0",
+  "description": "Fween",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeh/fween-js.git"
+  },
+  "author": "Zeh Fernando",
+  "homepage": "https://github.com/zeh/typescript-tidbits",
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-typescript": "^2.6.0",
+    "gulp-uglify": "^1.1.0",
+    "typescript": "Microsoft/TypeScript"
+  }
+}
