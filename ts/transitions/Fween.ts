@@ -32,8 +32,8 @@ export default class Fween {
 	// ================================================================================================================
 	// PUBLIC STATIC INTERFACE ----------------------------------------------------------------------------------------
 	
-	public static use(object1:()=>number, object2:(v:number) => void);
-	public static use(object1:Object);
+	public static use(object1:()=>number, object2:(v:number) => void):FweenSequence;
+	public static use(object1:Object):FweenSequence;
 	public static use(object1:any, object2?:any):FweenSequence {
 		if (typeof(object1) == "object") {
 			// Object
