@@ -81,7 +81,7 @@ gulp.task('minify', function () {
 });
 
 gulp.task('build', function() {
-	runSequence('clean', ['compile-es5-modules', 'compile-es6'], 'compile-es5', 'minify');
+	runSequence('clean', ['compile-es5-modules', 'compile-es6', 'compile-es5'], 'minify');
 });
 
 /**
