@@ -220,7 +220,7 @@ export class FweenSequence {
 		}
 	}
 
-	protected getTransition(transition):(t:number) => number {
+	protected getTransition(transition:(t:number) => number):(t:number) => number {
 		return transition == null ? Easing.none : transition;
 	}
 

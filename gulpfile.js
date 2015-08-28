@@ -59,7 +59,7 @@ gulp.task('compile-es6', function() {
 			noExternalResolve: true,
 			removeComments: false,
 			target: "es6",
-			noImplicitAny: false,
+			noImplicitAny: true,
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(options.buildES6));
@@ -71,7 +71,7 @@ gulp.task('compile-es6', function() {
 gulp.task('compile-es5', function() {
 	browserify("./" + options.src + "/transitions/Fween.ts")
 		.plugin('tsify', {
-			//noImplicitAny: true, // Turn this off later
+			noImplicitAny: true,
 			target: "es5",
 		})
 		.bundle().on('error', logError)
@@ -93,7 +93,7 @@ gulp.task('compile-es5-amd', function() {
 			removeComments: false,
 			target: "es5",
 			module: "amd", // commonjs, amd, system, umd
-			noImplicitAny: false,
+			noImplicitAny: true,
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(options.buildES5AMD));
