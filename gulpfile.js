@@ -26,8 +26,15 @@ var options = {
  * Generic error-catching function. This is necessary because without it, some tasks (e.g. watch) crash and burn without even showing the actual error
  */
 function logError(error) {
-    console.log("Error occurred: " + error.toString());
+    console.error("Error occurred: " + error.toString());
     this.emit('end');
+}
+
+/**
+ * Generic function to mark the end of a task, for better logging
+ */
+function logDivider() {
+	console.log("---");
 }
 
 /**
@@ -106,7 +113,14 @@ gulp.task('minify', function () {
  * Builds everything
  */
 gulp.task('build', function() {
-	runSequence('clean', ['compile-es5-amd', 'compile-es6', 'compile-es5'], 'minify');
+	runSequence('clean', ['compile-es5-amd', 'compile-es6', 'compile-es5'], 'minify', logDivider);
+});
+
+/**
+ * Builds ES5 only (for development purposes)
+ */
+gulp.task('build-es5', function() {
+	runSequence('clean', ['compile-es5'], logDivider);
 });
 
 /**
@@ -140,10 +154,17 @@ gulp.task('serve', function(cb) {
 });
 
 /**
- * Watches for changes to the TypeScript source files and build when needed
+ * Watches for changes to the TypeScript source files and build the ES5 version only
+ */
+gulp.task('watch-es5', ['build-es5'], function () {
+	gulp.watch([options.src + '/**/*.ts'], ['build-es5']);
+});
+
+/**
+ * Watches for changes to the TypeScript source files and build all versions
  */
 gulp.task('watch', ['build'], function () {
-	gulp.watch([options.src + '**/*.ts'], ['build']);
+	gulp.watch([options.src + '/**/*.ts'], ['build']);
 });
 
 /**
