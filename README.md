@@ -1,12 +1,12 @@
 # Fween
 
-Fween tweens things.
+Fween tweens things - object properties, function calls, HTML element styles.
 
 It is a TypeScript project that builds into a JavaScript library.
 
 Its main concept is simplicity. Its syntax uses a chained/stream methodology to construct sequences.
 
-It is under early development.
+It is experimental, and under early development.
 
 ## Syntax
 
