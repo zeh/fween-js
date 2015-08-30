@@ -334,3 +334,6 @@ export default class Easing {
 		return Number(__equations[eq](t * l - eq));
 	}
 }
+
+// Create a global object with the class - only used in the single file version, replaced at build time
+// #IFDEF ES5SINGLE // window["Easing"] = Easing;
