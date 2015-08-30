@@ -45,3 +45,15 @@ A getter/setter animation, smooth scrolling in 1 second and then calling a funct
         console.log("Smooth scroll ended.");
     }
 
+## Todo
+
+    Fween.use(obj)
+		.to({x: value}, 1, Easing.expoOut);
+
+    Fween.use(element.style)
+		.to({top: "valuepx"}, 1, Easing.expoOut);
+
+    Fween.use(element)
+		.to("background-color: #ffffff", 1, Easing.expoOutString)
+		
+
