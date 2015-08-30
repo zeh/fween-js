@@ -2,12 +2,121 @@
 <html>
 <head>
 	<title>Fween</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			font-size: 12pt;
+		}
+
+		.container {
+			box-sizing: border-box;
+			width: 300px;
+			height: 20px;
+			border: 1px solid #333333;
+			position: relative;
+		}
+		
+		.box {
+			box-sizing: border-box;
+			border: 1px solid #ffffff;
+			width: 40px;
+			top: 0;
+			bottom: 0;
+			background: #aaaaaa;
+			position: absolute;
+		}
+		
+		.description {
+			margin: 1em 0 0 0;
+		}
+
+		.buttons {
+			margin: 1em 0 0 0;
+		}
+		
+		.button {
+			border: 1px outset #999999;
+			padding: 10px;
+			background: #bbbbbb;
+			display: inline-block;
+			cursor: pointer;
+			font-size: 0.5em;
+			text-transform: uppercase;
+		}
+	</style>
 </head>
-<body>
+<body onload="setup();">
 	<!-- <script src="../../js-es5/fween.min.js"></script> -->
 	<script src="../../js-es5/fween.js"></script>
 	<script>
-		console.log("Fween is " + Fween);
+		
+		function setup() {
+			console.log("Fween is " + Fween + ", Easing is " + Easing);
+
+			// Listeners
+			document.querySelector("#buttonStart").addEventListener("click", function(e){ animateToStart(); });
+			document.querySelector("#buttonEnd").addEventListener("click", function(e){ animateToEnd(); });
+
+			// Needed objects
+			window.box2obj = {left: 0};
+			window.updateBox2();
+			
+			animateToEnd();
+		}
+		
+		// Aux functions
+		function updateBox2() {
+			window.requestAnimationFrame(window.updateBox2);
+			document.querySelector("#box2 .box").style.left = window.box2obj.left + "px"; // TODO: getter/setter must understand px/%/em/etc
+		}
+		
+		function getBox1Left() {
+			return parseFloat(document.querySelector("#box1 .box").style.left) || 0; // TODO: getter/setter must understand px/%/em/etc
+		}
+
+		function setBox1Left(value) {
+			document.querySelector("#box1 .box").style.left = value + "px";
+		}
+		
+		// Animation functions
+		function animateToEnd() {
+			animateTo(document.querySelector(".box").offsetParent.clientWidth - document.querySelector(".box").offsetWidth);
+		}
+		function animateToStart() {
+			animateTo(0);
+		}
+		
+		function animateTo(value) {
+			// 1: Getter/setter
+			Fween.use(window.getBox1Left, window.setBox1Left).to(value, 1, Easing.expoOut).play();
+
+			// 2: Object
+			//Fween.use(window.box2obj).to({left: value}, 1, Easing.expoOut).play(); // TODO: onupdate
+
+			// 3: Style object
+			//Fween.use(document.querySelector("#box4 .box").style).to({"left": value+"px"}, 1, Easing.expoOut).play();
+
+			// 4: CSS Transition
+			//Fween.use(document.querySelector("#box4 .box")).to("left: "+value+"px", 1, "ease-out").play();
+		}
 	</script>
+	<div>
+		<div class="description">Tweening with abstract getter/setter:</div>
+		<div id="box1" class="container"><div class="box"></div></div>
+
+		<div class="description">Tweening with abstract object properties:</div>
+		<div id="box2" class="container"><div class="box"></div></div>
+
+		<div class="description">Tweening with element style object:</div>
+		<div id="box3" class="container"><div class="box"></div></div>
+
+		<div class="description">Tweening with CSS transitions:</div>
+		<div id="box4" class="container"><div class="box"></div></div>
+
+		<div class="buttons">
+			<div id="buttonStart" class="button">Animate to start</div>
+			<div id="buttonEnd" class="button">Animate to end</div>
+		</div>
+	<div>
 </body>
 </html>
