@@ -319,6 +319,8 @@ var Easing = (function () {
     return Easing;
 })();
 exports.default = Easing;
+// Create a global object with the class - only used in the single file version, replaced at build time
+window["Easing"] = Easing;
 },{}],2:[function(require,module,exports){
 /**
  * @author	Zeh Fernando
