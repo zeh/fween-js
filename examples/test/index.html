@@ -54,14 +54,32 @@
 			console.log("Fween is " + Fween + ", Easing is " + Easing);
 
 			// Listeners
+			document.querySelector("#buttonToggle").addEventListener("click", function(e){ animateToggle(); });
 			document.querySelector("#buttonStart").addEventListener("click", function(e){ animateToStart(); });
 			document.querySelector("#buttonEnd").addEventListener("click", function(e){ animateToEnd(); });
+			
+			// Transition parameters
+			window.transitions = {
+				"custom" : window.customEase,
+				"Easing.expoOut" : Easing.expoOut,
+				"Easing.backOut" : Easing.backOut,
+				"Easing.backOut (BIG)" : function(t) { return Easing.backOut(t, 10) },
+			};
+
+			for (var key in window.transitions) {
+				var option = document.createElement("option");
+				option.text = key;
+				document.querySelector("#parameterTransition").add(option);
+			}
+			document.querySelector("#parameterTransition").selectedIndex = 0;
 
 			// Needed objects
 			window.box2obj = {left: 0};
 			window.updateBox2();
 			
-			animateToEnd();
+			window.lastTarget = 0;
+			
+			animateToggle();
 		}
 		
 		// Aux functions
@@ -78,7 +96,19 @@
 			document.querySelector("#box1 .box").style.left = value + "px";
 		}
 		
+		// Custom easings
+		function customEase(t) {
+			return t;
+		}
+		
 		// Animation functions
+		function animateToggle() {
+			if (window.lastTarget > 0) {
+				animateToStart();
+			} else {
+				animateToEnd();
+			}
+		}
 		function animateToEnd() {
 			animateTo(document.querySelector(".box").offsetParent.clientWidth - document.querySelector(".box").offsetWidth);
 		}
@@ -87,8 +117,15 @@
 		}
 		
 		function animateTo(value) {
+			window.lastTarget = value;
+
+			// Select the transition
+			var transition = window.transitions[document.querySelector("#parameterTransition").value];
+			
+			// Animate
+
 			// 1: Getter/setter
-			Fween.use(window.getBox1Left, window.setBox1Left).to(value, 1, Easing.expoOut).play();
+			Fween.use(window.getBox1Left, window.setBox1Left).to(value, 1, transition).play();
 
 			// 2: Object
 			//Fween.use(window.box2obj).to({left: value}, 1, Easing.expoOut).play(); // TODO: onupdate
@@ -101,6 +138,12 @@
 		}
 	</script>
 	<div>
+		<div class="parameters">
+			<div class="description">Parameters:</div>
+			<select id="parameterTransition">
+			</select>
+		<div>
+
 		<div class="description">Tweening with abstract getter/setter:</div>
 		<div id="box1" class="container"><div class="box"></div></div>
 
@@ -114,6 +157,7 @@
 		<div id="box4" class="container"><div class="box"></div></div>
 
 		<div class="buttons">
+			<div id="buttonToggle" class="button">Animate (toggle)</div>
 			<div id="buttonStart" class="button">Animate to start</div>
 			<div id="buttonEnd" class="button">Animate to end</div>
 		</div>
