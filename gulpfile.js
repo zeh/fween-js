@@ -44,8 +44,8 @@ function logDivider() {
 /**
  * Clean all build folders
  */
-gulp.task('clean', function (cb) {
-	del([options.buildES6 + '/**/*', options.buildES5AMD + '/**/*', options.buildES5Single + '/**/*'], cb);
+gulp.task('clean', function() {
+	return del([options.buildES6 + '/**/*', options.buildES5AMD + '/**/*', options.buildES5Single + '/**/*']);
 });
 
 /**
