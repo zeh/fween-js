@@ -318,6 +318,7 @@ var Easing = (function () {
     Easing.TWO_PI = Math.PI * 2;
     return Easing;
 })();
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Easing;
 // Create a global object with the class - only used in the single file version, replaced at build time
 window["Easing"] = Easing;
@@ -369,6 +370,7 @@ var Fween = (function () {
     Fween.ticker = null;
     return Fween;
 })();
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Fween;
 // Create a global object with the class - only used in the single file version, replaced at build time
 window["Fween"] = Fween;
@@ -890,5 +892,6 @@ var MathUtils = (function () {
     MathUtils.RAD2DEG = 1 / Math.PI * 180;
     return MathUtils;
 })();
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MathUtils;
 },{}]},{},[2]);
