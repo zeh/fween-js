@@ -23,17 +23,15 @@ import MathUtils from './../utils/MathUtils';
  .pause()
  .isPlaying()
  .stop()
+ .seek()
 
  TODO:
- .seek()
 
  .use(obj)
  + transition with element style objects
  + transition with css transitions
 
  */
-
-// https://github.com/zeh/unity-tidbits/blob/master/transitions/ZTween.cs
 
 export default class Fween {
 
@@ -47,7 +45,7 @@ export default class Fween {
 
 	public static use(object1:() => number, object2:(v:number) => void):FweenGetterSetterSequence;
 	public static use(object1:Object):FweenObjectSequence;
-	public static use(object1:any, object2?:any):FweenSequence {
+	public static use(object1:any, object2?:any):any {
 		if (typeof(object1) === "object") {
 			// Object
 			return new FweenObjectSequence(object1);
@@ -82,19 +80,13 @@ class FweenStepMetadata {
 	public hasStarted:boolean = false;
 	public hasCompleted:boolean = false;
 	public timeStart:number = 0.0;
-	public timeEnd:number = 0;
+	public timeEnd:number = 0.0;
+
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
 	constructor() {
-	}
-
-	// ================================================================================================================
-	// ACCESSOR INTERFACE ---------------------------------------------------------------------------------------------
-
-	public get timeDuration():number {
-		return this.timeEnd - this.timeStart;
 	}
 }
 
@@ -115,10 +107,9 @@ export class FweenSequence {
 
 	private _isPlaying:boolean = false;
 	private _currentStep:number = 0;
-	private _startTime:number = 0.0;
-	private _pauseTime:number = 0.0;
-	private _executedTime:number = 0.0;
-	private _duration:number = 0.0;
+	private _startTime:number = 0.0;					// Absolute time it was started
+	private _time:number = 0.0;							// Current time, relative to start
+	private _duration:number = 0.0;						// Full interval duration of the sequence
 
 
 	// ================================================================================================================
@@ -126,7 +117,6 @@ export class FweenSequence {
 
 	constructor() {
 		// Create a new Fween
-		this._startTime = Fween.getTicker().getTime();
 	}
 
 
@@ -141,8 +131,7 @@ export class FweenSequence {
 	public play():FweenSequence {
 		if (!this._isPlaying) {
 			this._isPlaying = true;
-			let timePaused = Fween.getTicker().getTime() - this._pauseTime;
-			this._startTime += timePaused;
+			this._startTime = Fween.getTicker().getTime() - this._time;
 			Fween.getTicker().add(this);
 		}
 		return this;
@@ -154,7 +143,6 @@ export class FweenSequence {
 	public pause():FweenSequence {
 		if (this._isPlaying) {
 			this._isPlaying = false;
-			this._pauseTime = Fween.getTicker().getTime();
 			Fween.getTicker().remove(this);
 		}
 		return this;
@@ -166,15 +154,54 @@ export class FweenSequence {
 	public stop():FweenSequence {
 		if (this._isPlaying) {
 			this.pause();
-			// TODO: do pause() and seek() instead
-			this._startTime = Fween.getTicker().getTime();
-			this._executedTime = 0;
+			this.seek(0);
 		}
 		return this;
 	}
 
+	/**
+	 * Set the current time for this sequence, in seconds
+	 */
+	public seek(time:number) {
+		this._time = time;
+		let newStep = this.getStepForTime(this._time);
+		if (newStep !== this._currentStep) {
+			// TODO: better treatment of .start/.end/.hasStarted/.hasCompleted when switching.. when going forward and backward....
+			if (newStep < this._currentStep) {
+				// Going back
+				for (let i = this._currentStep; i < this._currentStep; i++) {
+
+				}
+			} else {
+				// Going forward
+				for (let i = this._currentStep; i < this._currentStep; i++) {
+
+				}
+			}
+		}
+		this.update();
+	}
+
+
+	/**
+	 * Return whether this sequence is playing or not
+	 */
 	public isPlaying():boolean {
 		return this._isPlaying;
+	}
+
+	/**
+	 * Returns the current time for this sequence, in seconds
+	 */
+	public getTime():number {
+		return this._time;
+	}
+
+	/**
+	 * Returns the duration of sequence, in seconds
+	 */
+	public getDuration():number {
+		return this._duration;
 	}
 
 	// Utility methods
@@ -205,11 +232,21 @@ export class FweenSequence {
 		this._steps.push(step);
 
 		let tweenMetadata = new FweenStepMetadata();
-		tweenMetadata.timeStart = this._startTime + this._duration;
+		tweenMetadata.timeStart = this._duration;
 		this._duration += step.getDuration();
-		tweenMetadata.timeEnd = this._startTime + this._duration;
+		tweenMetadata.timeEnd = this._duration;
 
 		this._stepsMetadatas.push(tweenMetadata);
+	}
+
+	protected getStepForTime(time:number):number {
+		// Finds best step index for a tween at a specific time
+		for (let i = 0; i < this._stepsMetadatas.length; i++) {
+			if (this._stepsMetadatas[i].timeStart <= time && this._stepsMetadatas[i].timeEnd >= time) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	public update():void {
@@ -220,11 +257,12 @@ export class FweenSequence {
 			this.destroy();
 		} else {
 			let shouldUpdateOnce = this._isPlaying;
+			this._time = Fween.getTicker().getTime() - this._startTime;
 
 			while (shouldUpdateOnce && this._currentStep < this._steps.length) {
 				shouldUpdateOnce = false;
 
-				if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeStart) {
+				if (this._time >= this._stepsMetadatas[this._currentStep].timeStart) {
 					// Start the current tween step if necessary
 					if (!this._stepsMetadatas[this._currentStep].hasStarted) {
 						this._steps[this._currentStep].start();
@@ -232,14 +270,22 @@ export class FweenSequence {
 					}
 
 					// Update the current tween step
-					this._steps[this._currentStep].update(MathUtils.map(Fween.getTicker().getTime(), this._stepsMetadatas[this._currentStep].timeStart, this._stepsMetadatas[this._currentStep].timeEnd, 0, 1, true));
+					this._steps[this._currentStep].update(
+						MathUtils.map(
+							this._time,
+							this._stepsMetadatas[this._currentStep].timeStart,
+							this._stepsMetadatas[this._currentStep].timeEnd,
+							0,
+							1,
+							true
+						)
+					);
 
 					// Check if it's finished
-					if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeEnd) {
+					if (this._time >= this._stepsMetadatas[this._currentStep].timeEnd) {
 						if (!this._stepsMetadatas[this._currentStep].hasCompleted) {
 							this._steps[this._currentStep].end();
 							this._stepsMetadatas[this._currentStep].hasCompleted = true;
-							this._executedTime += this._stepsMetadatas[this._currentStep].timeDuration;
 							shouldUpdateOnce = true;
 							this._currentStep++;
 						}
@@ -292,7 +338,7 @@ export class FweenGetterSetterSequence extends FweenSequence {
 	}
 }
 
-class FweenObjectSequence extends FweenSequence {
+export class FweenObjectSequence extends FweenSequence {
 
 	// A sequence for common objects' properties
 
@@ -596,7 +642,7 @@ export class FweenTicker {
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
-	private update():void {
+	public update():void {
 		window.requestAnimationFrame(this.updateBound);
 
 		this.time = Date.now() / 1000;
