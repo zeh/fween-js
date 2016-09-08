@@ -130,9 +130,6 @@ export class FweenSequence {
 	constructor() {
 		// Create a new Fween
 		this._startTime = Fween.getTicker().getTime();
-
-		// Add to list
-		Fween.getTicker().add(this);
 	}
 
 
@@ -149,6 +146,7 @@ export class FweenSequence {
 			this._isPlaying = true;
 			let timePaused = Fween.getTicker().getTime() - this._pauseTime;
 			this._startTime += timePaused;
+			Fween.getTicker().add(this);
 		}
 		return this;
 	}
@@ -160,6 +158,7 @@ export class FweenSequence {
 		if (this._isPlaying) {
 			this._isPlaying = false;
 			this._pauseTime = Fween.getTicker().getTime();
+			Fween.getTicker().remove(this);
 		}
 		return this;
 	}
@@ -169,8 +168,7 @@ export class FweenSequence {
 	 */
 	public stop():FweenSequence {
 		if (this._isPlaying) {
-			this._isPlaying = false;
-			this._pauseTime = Fween.getTicker().getTime();
+			this.pause();
 			// TODO: do pause() and seek() instead
 			this._startTime = Fween.getTicker().getTime();
 			this._executedTime = 0;
@@ -263,7 +261,7 @@ export class FweenSequence {
 	}
 }
 
-class FweenGetterSetterSequence extends FweenSequence {
+export class FweenGetterSetterSequence extends FweenSequence {
 
 	// A sequence for getter/setter pairs
 
