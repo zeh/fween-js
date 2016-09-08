@@ -38,7 +38,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static none(t:number):number {
+	public static none(t:number):number {
 		return t;
 	}
 
@@ -48,7 +48,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quadIn(t:number):number {
+	public static quadIn(t:number):number {
 		return t*t;
 	}
 
@@ -58,7 +58,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quadOut(t:number):number {
+	public static quadOut(t:number):number {
 		return -t * (t-2);
 	}
 
@@ -68,7 +68,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quadInOut(t:number):number {
+	public static quadInOut(t:number):number {
 		//return t < 0.5 ? quadIn(t*2) : quadOut((t-0.5)*2);
 		return ((t *= 2) < 1) ? t * t * 0.5 : -0.5 * (--t * (t-2) - 1);
 	}
@@ -79,7 +79,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static cubicIn(t:number):number {
+	public static cubicIn(t:number):number {
 		return t*t*t;
 	}
 
@@ -89,11 +89,11 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static cubicOut(t:number):number {
+	public static cubicOut(t:number):number {
 		return (t = t-1) * t * t + 1;
 	}
 
-	static cubicInOut(t:number):number {
+	public static cubicInOut(t:number):number {
 		return (t *= 2) < 1 ? Easing.cubicIn(t)/2 : Easing.cubicOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -103,7 +103,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quartIn(t:number):number {
+	public static quartIn(t:number):number {
 		return t*t*t*t;
 	}
 
@@ -113,12 +113,12 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quartOut(t:number):number {
+	public static quartOut(t:number):number {
 		t--;
 		return -1 * (t * t * t * t - 1);
 	}
 
-	static quartInOut(t:number):number {
+	public static quartInOut(t:number):number {
 		return (t *= 2) < 1 ? Easing.quartIn(t)/2 : Easing.quartOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -128,7 +128,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quintIn(t:number):number {
+	public static quintIn(t:number):number {
 		return t*t*t*t*t;
 	}
 
@@ -138,7 +138,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static quintOut(t:number):number {
+	public static quintOut(t:number):number {
 		t--;
 		return t*t*t*t*t + 1;
 	}
@@ -153,7 +153,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static sineIn(t:number):number {
+	public static sineIn(t:number):number {
 		return -1 * Math.cos(t * Easing.HALF_PI) + 1;
 	}
 
@@ -163,11 +163,11 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static sineOut(t:number):number {
+	public static sineOut(t:number):number {
 		return Math.sin(t * Easing.HALF_PI);
 	}
 
-	static sineInOut(t:number):number {
+	public static sineInOut(t:number):number {
 		return (t *= 2) < 1 ? Easing.sineIn(t)/2 : Easing.sineOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -177,7 +177,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static expoIn(t:number):number {
+	public static expoIn(t:number):number {
 		// return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b; // original
 		return (t==0) ? 0 : Math.pow(2, 10 * (t - 1)) - 0.001; // ztween fixed
 	}
@@ -188,7 +188,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static expoOut(t:number):number {
+	public static expoOut(t:number):number {
 		// return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b; // original
 		// return (t==1) ? 1 : (-Math.pow(2, -10 * t) + 1); // ztween
 		// return (t == d) ? b + c : c * 1.001 * (-Math.pow(2, -10 * t / d) + 1) + b; // tweener fixed
@@ -197,7 +197,7 @@ export default class Easing {
 		return (t>=0.999) ? 1 : 1.001 * (-Math.pow(2, -10 * t) + 1); // ztween fixed 2
 	}
 
-	static expoInOut(t:number):number {
+	public static expoInOut(t:number):number {
 		return (t *= 2) < 1 ? Easing.expoIn(t)/2 : Easing.expoOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -207,7 +207,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static circIn(t:number):number {
+	public static circIn(t:number):number {
 		return -1 * (Math.sqrt(1 - t*t) - 1);
 	}
 
@@ -217,12 +217,12 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @return				The new value/phase (0-1).
 	 */
-	static circOut(t:number):number {
+	public static circOut(t:number):number {
 		t--;
 		return Math.sqrt(1 - t*t);
 	}
 
-	static circInOut(t:number):number {
+	public static circInOut(t:number):number {
 		return (t *= 2) < 1 ? Easing.circIn(t)/2 : Easing.circOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -234,7 +234,7 @@ export default class Easing {
 	 * @param	p			Period.
 	 * @return				The new value/phase (0-1).
 	 */
-	static elasticIn(t:number, a:number = 0, p:number = 0.3):number {
+	public static elasticIn(t:number, a:number = 0, p:number = 0.3):number {
 		if (t==0) return 0;
 		if (t==1) return 1;
 		var s:number;
@@ -254,7 +254,7 @@ export default class Easing {
 	 * @param	a			Amplitude.
 	 * @param	p			Period.
 	 */
-	static elasticOut(t:number, a:number = 0, p:number = 0.3):number {
+	public static elasticOut(t:number, a:number = 0, p:number = 0.3):number {
 		if (t==0) return 0;
 		if (t==1) return 1;
 		var s:number;
@@ -274,7 +274,7 @@ export default class Easing {
 	 * @param	s			Overshoot ammount: higher s means greater overshoot (0 produces cubic easing with no overshoot, and the default value of 1.70158 produces an overshoot of 10 percent).
 	 * @param	p			Period.
 	 */
-	static backIn(t:number, s:number = 1.70158):number {
+	public static backIn(t:number, s:number = 1.70158):number {
 		return t*t*((s+1)*t - s);
 	}
 
@@ -285,12 +285,12 @@ export default class Easing {
 	 * @param	s			Overshoot ammount: higher s means greater overshoot (0 produces cubic easing with no overshoot, and the default value of 1.70158 produces an overshoot of 10 percent).
 	 * @param	p			Period.
 	 */
-	static backOut(t:number, s:number = 1.70158):number {
+	public static backOut(t:number, s:number = 1.70158):number {
 		t--;
 		return t*t*((s+1)*t + s) + 1;
 	}
 
-	static backInOut(t:number): number {
+	public static backInOut(t:number): number {
 		return (t *= 2) < 1 ? Easing.backIn(t)/2 : Easing.backOut(t-1)/2+0.5; // TODO: redo with in-line calculation
 	}
 
@@ -300,7 +300,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @param	p			Period.
 	 */
-	static bounceIn(t:number):number {
+	public static bounceIn(t:number):number {
 		return 1 - Easing.bounceOut(1-t);
 	}
 
@@ -310,7 +310,7 @@ export default class Easing {
 	 * @param	t			Current time/phase (0-1).
 	 * @param	p			Period.
 	 */
-	static bounceOut(t:number):number {
+	public static bounceOut(t:number):number {
 		if (t < (1/2.75)) {
 			return 7.5625*t*t;
 		} else if (t < (2/2.75)) {
@@ -326,10 +326,10 @@ export default class Easing {
 	// ================================================================================================================
 	// COMBINATOR -----------------------------------------------------------------------------------------------------
 
-	static combined(t:number, __equations:any[]):number {
-		var l:number = __equations.length;
-		var eq:number = Math.floor(t * l);
-		if (eq == __equations.length) eq = l - 1;
+	public static combined(t:number, __equations:any[]):number {
+		let l:number = __equations.length;
+		let eq:number = Math.floor(t * l);
+		if (eq === __equations.length) eq = l - 1;
 		//trace (t, eq, t * l - eq);
 		return Number(__equations[eq](t * l - eq));
 	}
