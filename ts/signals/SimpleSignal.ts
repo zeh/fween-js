@@ -3,9 +3,6 @@
  */
 export default class SimpleSignal<F extends Function> {
 
-	// Super-simple signals class inspired by Robert Penner's AS3Signals:
-	// http://github.com/robertpenner/as3-signals
-
 	// Properties
 	private functions:Array<F> = [];
 
@@ -24,7 +21,7 @@ export default class SimpleSignal<F extends Function> {
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
 	public add(func:F):boolean {
-		if (this.functions.indexOf(func) == -1) {
+		if (this.functions.indexOf(func) === -1) {
 			this.functions.push(func);
 			return true;
 		}
@@ -49,8 +46,8 @@ export default class SimpleSignal<F extends Function> {
 	}
 
 	public dispatch(...args:any[]):void {
-		var functionsDuplicate:Array<Function> = this.functions.concat();
-		for (var i:number = 0; i < functionsDuplicate.length; i++) {
+		let functionsDuplicate:Array<Function> = this.functions.concat();
+		for (let i = 0; i < functionsDuplicate.length; i++) {
 			functionsDuplicate[i].apply(undefined, args);
 		}
 	}
