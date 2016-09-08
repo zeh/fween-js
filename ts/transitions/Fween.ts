@@ -164,6 +164,10 @@ export class FweenSequence {
 		return this;
 	}
 
+	public isPlaying():boolean {
+		return this._isPlaying;
+	}
+
 	// Utility methods
 
 	/**
