@@ -11,11 +11,27 @@ import MathUtils from './../utils/MathUtils';
 /*
  Ideas for tweening - from https://github.com/zeh/unity-tidbits/blob/master/transitions/ZTween.cs
 
- ZTween.use(obj)
- .to(o, t, transition)
+ DONE:
+
+ Fween
+ .use(getter, setter?)
+ .from(value)
+ .to(value, t, transition)
  .call(f)
  .wait(t)
- .use(getter, setter?)
+
+ .play()
+ .pause()
+ .isPlaying()
+
+ TODO:
+ .stop()
+ .seek()
+
+ .use(obj)
+ + transition with element style objects
+ + transition with css transitions
+
  */
 
 // TODO: this library has .time, .duration, and .getDuration(). Make your mind!
@@ -23,22 +39,22 @@ import MathUtils from './../utils/MathUtils';
 // https://github.com/zeh/unity-tidbits/blob/master/transitions/ZTween.cs
 
 export default class Fween {
-	
+
 	// Main class - just a starting point
 	private static ticker:FweenTicker = null;
-	
+
 	// Properties
 
 	// ================================================================================================================
 	// PUBLIC STATIC INTERFACE ----------------------------------------------------------------------------------------
-	
-	public static use(object1:()=>number, object2:(v:number) => void):FweenSequence;
-	public static use(object1:Object):FweenSequence;
+
+	public static use(object1:() => number, object2:(v:number) => void):FweenGetterSetterSequence;
+	public static use(object1:Object):FweenObjectSequence;
 	public static use(object1:any, object2?:any):FweenSequence {
-		if (typeof(object1) == "object") {
+		if (typeof(object1) === "object") {
 			// Object
 			return new FweenObjectSequence(object1);
-		} else if (typeof(object1) == "function" && typeof(object2) == "function") {
+		} else if (typeof(object1) === "function" && typeof(object2) === "function") {
 			// Getter/setter
 			return new FweenGetterSetterSequence(object1, object2);
 		}
@@ -62,9 +78,9 @@ export default class Fween {
 // Aux classes
 
 class FweenStepMetadata {
-	
+
 	// Class to maintain metadata related to each step of a Fween sequence
-	
+
 	// Properties
 	public hasStarted:boolean = false;
 	public hasCompleted:boolean = false;
@@ -93,19 +109,19 @@ export interface IFweenStep {
 }
 
 export class FweenSequence {
-	
-	// One sequence of steps
-	
-	// Properties
-	private steps:Array<IFweenStep> = [];
-	private stepsMetadatas:Array<FweenStepMetadata> = [];
 
-	private isPlaying:boolean = false;
-	private currentStep:number = 0;
-	private startTime:number = 0.0;
-	private pauseTime:number = 0.0;
-	private executedTime:number = 0.0;
-	private duration:number = 0.0;
+	// One sequence of steps
+
+	// Properties
+	private _steps:Array<IFweenStep> = [];
+	private _stepsMetadatas:Array<FweenStepMetadata> = [];
+
+	private _isPlaying:boolean = false;
+	private _currentStep:number = 0;
+	private _startTime:number = 0.0;
+	private _pauseTime:number = 0.0;
+	private _executedTime:number = 0.0;
+	private _duration:number = 0.0;
 
 
 	// ================================================================================================================
@@ -113,7 +129,7 @@ export class FweenSequence {
 
 	constructor() {
 		// Create a new Fween
-		this.startTime = Fween.getTicker().getTime();
+		this._startTime = Fween.getTicker().getTime();
 
 		// Add to list
 		Fween.getTicker().add(this);
@@ -129,10 +145,10 @@ export class FweenSequence {
 	 * Play (or resume) the sequence
 	 */
 	public play():FweenSequence {
-		if (!this.isPlaying) {
-			this.isPlaying = true;
-			let timePaused = Fween.getTicker().getTime() - this.pauseTime;
-			this.startTime += timePaused;
+		if (!this._isPlaying) {
+			this._isPlaying = true;
+			let timePaused = Fween.getTicker().getTime() - this._pauseTime;
+			this._startTime += timePaused;
 		}
 		return this;
 	}
@@ -141,9 +157,9 @@ export class FweenSequence {
 	 * Pause the sequence
 	 */
 	public pause():FweenSequence {
-		if (this.isPlaying) {
-			this.isPlaying = false;
-			this.pauseTime = Fween.getTicker().getTime();
+		if (this._isPlaying) {
+			this._isPlaying = false;
+			this._pauseTime = Fween.getTicker().getTime();
 		}
 		return this;
 	}
@@ -162,7 +178,7 @@ export class FweenSequence {
 	 * Wait a number of seconds
 	 */
 	public wait(duration:number):FweenSequence {
-		this.duration += this.duration;
+		this._duration += this._duration;
 		return this;
 	}
 
@@ -173,46 +189,46 @@ export class FweenSequence {
 	// Core tween step control methods; reused by subclasses
 
 	protected addStep(step:IFweenStep):void {
-		this.steps.push(step);
+		this._steps.push(step);
 
 		let tweenMetadata = new FweenStepMetadata();
-		tweenMetadata.timeStart = this.startTime + this.duration;
-		this.duration += step.getDuration();
-		tweenMetadata.timeEnd = this.startTime + this.duration;
+		tweenMetadata.timeStart = this._startTime + this._duration;
+		this._duration += step.getDuration();
+		tweenMetadata.timeEnd = this._startTime + this._duration;
 
-		this.stepsMetadatas.push(tweenMetadata);
+		this._stepsMetadatas.push(tweenMetadata);
 	}
 
 	public update():void {
 		// Update current step(s) based on the time
 
 		// Check if finished
-		if (this.currentStep >= this.steps.length) {
-			this.destroy()
+		if (this._currentStep >= this._steps.length) {
+			this.destroy();
 		} else {
-			var shouldUpdateOnce = this.isPlaying;
+			let shouldUpdateOnce = this._isPlaying;
 
-			while (shouldUpdateOnce && this.currentStep < this.steps.length) {
+			while (shouldUpdateOnce && this._currentStep < this._steps.length) {
 				shouldUpdateOnce = false;
 
-				if (Fween.getTicker().getTime() >= this.stepsMetadatas[this.currentStep].timeStart) {
+				if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeStart) {
 					// Start the current tween step if necessary
-					if (!this.stepsMetadatas[this.currentStep].hasStarted) {
-						this.steps[this.currentStep].start();
-						this.stepsMetadatas[this.currentStep].hasStarted = true;
+					if (!this._stepsMetadatas[this._currentStep].hasStarted) {
+						this._steps[this._currentStep].start();
+						this._stepsMetadatas[this._currentStep].hasStarted = true;
 					}
 
 					// Update the current tween step
-					this.steps[this.currentStep].update(MathUtils.map(Fween.getTicker().getTime(), this.stepsMetadatas[this.currentStep].timeStart, this.stepsMetadatas[this.currentStep].timeEnd, 0, 1, true));
+					this._steps[this._currentStep].update(MathUtils.map(Fween.getTicker().getTime(), this._stepsMetadatas[this._currentStep].timeStart, this._stepsMetadatas[this._currentStep].timeEnd, 0, 1, true));
 
 					// Check if it's finished
-					if (Fween.getTicker().getTime() >= this.stepsMetadatas[this.currentStep].timeEnd) {
-						if (!this.stepsMetadatas[this.currentStep].hasCompleted) {
-							this.steps[this.currentStep].end();
-							this.stepsMetadatas[this.currentStep].hasCompleted = true;
-							this.executedTime += this.stepsMetadatas[this.currentStep].timeDuration;
+					if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeEnd) {
+						if (!this._stepsMetadatas[this._currentStep].hasCompleted) {
+							this._steps[this._currentStep].end();
+							this._stepsMetadatas[this._currentStep].hasCompleted = true;
+							this._executedTime += this._stepsMetadatas[this._currentStep].timeDuration;
 							shouldUpdateOnce = true;
-							this.currentStep++;
+							this._currentStep++;
 						}
 					}
 				}
@@ -230,12 +246,12 @@ export class FweenSequence {
 }
 
 class FweenGetterSetterSequence extends FweenSequence {
-	
+
 	// A sequence for getter/setter pairs
 
 	// Properties
-	private targetGet:() => number;
-	private targetSet:(value:number) => void;
+	private _targetGet:() => number;
+	private _targetSet:(value:number) => void;
 
 
 	// ================================================================================================================
@@ -244,8 +260,8 @@ class FweenGetterSetterSequence extends FweenSequence {
 	constructor(targetGet:() => number, targetSet:(value:number) => void) {
 		super();
 
-		this.targetGet = targetGet;
-		this.targetSet = targetSet;
+		this._targetGet = targetGet;
+		this._targetSet = targetSet;
 	}
 
 
@@ -253,31 +269,31 @@ class FweenGetterSetterSequence extends FweenSequence {
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
 	public from(value:number):FweenGetterSetterSequence {
-		this.addStep(new FweenStepValueFrom(this.targetSet, value));
+		this.addStep(new FweenStepValueFrom(this._targetSet, value));
 		return this;
 	}
 
 	public to(value:number, duration:number = 0, transition:(t:number) => number = null):FweenGetterSetterSequence {
-		this.addStep(new FweenStepValueTo(this.targetGet, this.targetSet, value, duration, this.getTransition(transition)));
+		this.addStep(new FweenStepValueTo(this._targetGet, this._targetSet, value, duration, this.getTransition(transition)));
 		return this;
 	}
 }
 
 class FweenObjectSequence extends FweenSequence {
-	
+
 	// A sequence for common objects' properties
 
 	// Properties
-	private targetObject:Object;
+	private _targetObject:Object;
 
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
-	
+
 	constructor(object:Object) {
 		super();
 
-		this.targetObject = object;
+		this._targetObject = object;
 	}
 
 	// ================================================================================================================
@@ -296,14 +312,14 @@ class FweenObjectSequence extends FweenSequence {
 class FweenStepCall {
 
 	// A step to call a function
-	private action:Function;	
+	private _action:Function;
 
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
 	constructor(func:Function) {
-		this.action = func;
+		this._action = func;
 	}
 
 
@@ -315,7 +331,7 @@ class FweenStepCall {
 	public update(t:number):void { }
 
 	public end():void {
-		this.action();
+		this._action();
 	}
 
 	public getDuration():number {
@@ -330,16 +346,16 @@ class FweenStepValueFrom {
 	// A step to set the starting value
 
 	// Properties
-	private targetSet:(value:number) => void;
-	private targetValue:number;
+	private _targetSet:(value:number) => void;
+	private _targetValue:number;
 
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
 	constructor(targetSet:(value:number) => void, targetValue:number) {
-		this.targetSet = targetSet;
-		this.targetValue = targetValue;
+		this._targetSet = targetSet;
+		this._targetValue = targetValue;
 	}
 
 
@@ -351,7 +367,7 @@ class FweenStepValueFrom {
 	public update(t:number):void { }
 
 	public end():void {
-		this.targetSet(this.targetValue);
+		this._targetSet(this._targetValue);
 	}
 
 	public getDuration():number {
@@ -364,38 +380,38 @@ class FweenStepValueTo {
 	// A step to tween to a value
 
 	// Properties
-	private targetGet:() => number;
-	private targetSet:(value:number) => void;
-	private duration:number;
-	private startValue:number;
-	private targetValue:number;
-	private transition:(t:number) => number;
+	private _targetGet:() => number;
+	private _targetSet:(value:number) => void;
+	private _duration:number;
+	private _startValue:number;
+	private _targetValue:number;
+	private _transition:(t:number) => number;
 
 	constructor(targetGet:() => number, targetSet:(value:number) => void, targetValue:number, duration:number, transition:(t:number) => number) {
-		this.targetGet = targetGet;
-		this.targetSet = targetSet;
-		this.duration = duration;
-		this.targetValue = targetValue;
-		this.transition = transition;
+		this._targetGet = targetGet;
+		this._targetSet = targetSet;
+		this._duration = duration;
+		this._targetValue = targetValue;
+		this._transition = transition;
 	}
 
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
 	public start():void {
-		this.startValue = this.targetGet();
+		this._startValue = this._targetGet();
 	}
 
 	public update(t:number):void {
-		this.targetSet(MathUtils.map(this.transition(t), 0, 1, this.startValue, this.targetValue));
+		this._targetSet(MathUtils.map(this._transition(t), 0, 1, this._startValue, this._targetValue));
 	}
 
 	public end():void {
-		this.targetSet(this.targetValue);
+		this._targetSet(this._targetValue);
 	}
 
 	public getDuration():number {
-		return this.duration;
+		return this._duration;
 	}
 }
 
@@ -548,7 +564,7 @@ public static void applyLerp(Vector3 start, Vector3 end, float t, ref Vector3 re
 export class FweenTicker {
 
 	// Ticker class to control updates
-	
+
 	// Properties
 	private sequences:Array<FweenSequence> = [];
 	private time:number = 0.0;
