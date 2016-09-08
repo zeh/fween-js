@@ -22,9 +22,9 @@ import MathUtils from './../utils/MathUtils';
  .play()
  .pause()
  .isPlaying()
+ .stop()
 
  TODO:
- .stop()
  .seek()
 
  .use(obj)
@@ -32,8 +32,6 @@ import MathUtils from './../utils/MathUtils';
  + transition with css transitions
 
  */
-
-// TODO: this library has .time, .duration, and .getDuration(). Make your mind!
 
 // https://github.com/zeh/unity-tidbits/blob/master/transitions/ZTween.cs
 
