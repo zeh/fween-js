@@ -601,7 +601,7 @@ export class FweenTicker {
 
 		this.time = Date.now() / 1000;
 
-		for (var i = 0; i < this.sequences.length; i++) {
+		for (let i = 0; i < this.sequences.length; i++) {
 			if (this.sequences[i] != null) {
 				this.sequences[i].update();
 			} else {
@@ -621,7 +621,7 @@ export class FweenTicker {
 
 	public remove(sequence:FweenSequence):void {
 		// Nullify first, remove later - otherwise it gets remove while doing Update(), which can cause the list to trip on itself
-		var idx = this.sequences.indexOf(sequence);
+		let idx = this.sequences.indexOf(sequence);
 		if (idx > -1) this.sequences[idx] = null;
 	}
 }
