@@ -154,12 +154,26 @@ export class FweenSequence {
 	}
 
 	/**
-	 * Pause the sequence
+	 * Pause the sequence at the current position
 	 */
 	public pause():FweenSequence {
 		if (this._isPlaying) {
 			this._isPlaying = false;
 			this._pauseTime = Fween.getTicker().getTime();
+		}
+		return this;
+	}
+
+	/**
+	 * Stop the sequence completely
+	 */
+	public stop():FweenSequence {
+		if (this._isPlaying) {
+			this._isPlaying = false;
+			this._pauseTime = Fween.getTicker().getTime();
+			// TODO: do pause() and seek() instead
+			this._startTime = Fween.getTicker().getTime();
+			this._executedTime = 0;
 		}
 		return this;
 	}
