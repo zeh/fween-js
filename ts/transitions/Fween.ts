@@ -4,7 +4,6 @@
  * @since	2015-08-03
  */
 
-import SimpleSignal from './../signals/SimpleSignal';
 import Easing from './Easing';
 import MathUtils from './../utils/MathUtils';
 
