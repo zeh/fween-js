@@ -39,7 +39,7 @@ A getter/setter animation, smooth scrolling in 1 second and then calling a funct
         return window.scrollY;
     }
     function setScrollY(value) {
-        window.scrollTo(0, value;
+        window.scrollTo(0, value);
     }
     function completeCallback() {
         console.log("Smooth scroll ended.");
