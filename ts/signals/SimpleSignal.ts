@@ -3,6 +3,9 @@
  */
 export default class SimpleSignal<F extends Function> {
 
+	// Super-simple signals class inspired by Robert Penner's AS3Signals:
+	// http://github.com/robertpenner/as3-signals
+
 	// Properties
 	private functions:Array<F> = [];
 
