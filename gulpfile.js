@@ -56,10 +56,11 @@ gulp.task('compile-es6', function() {
 		.pipe(sourcemaps.init())
 		.pipe(ts({
 			declarationFiles: true,
-			noExternalResolve: true,
+			noResolve: true,
 			removeComments: false,
 			target: "es6",
 			noImplicitAny: true,
+			strictNullChecks: true,
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(options.buildES6));
@@ -89,11 +90,12 @@ gulp.task('compile-es5-amd', function() {
 		.pipe(sourcemaps.init())
 		.pipe(ts({
 			declarationFiles: true,
-			noExternalResolve: true,
+			noResolve: true,
 			removeComments: false,
 			target: "es5",
 			module: "amd", // commonjs, amd, system, umd
 			noImplicitAny: true,
+			strictNullChecks: true,
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(options.buildES5AMD));
