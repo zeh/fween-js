@@ -19,7 +19,6 @@
     "gulp-uglify": "^2.0.0",
     "gulp-webserver": "^0.9.1",
     "run-sequence": "^1.1.4",
-    "simplesignal": "^2.0.3",
     "tsify": "^2.0.2",
     "tslint": "^3.15.1",
     "typescript": "^2.0.9",
