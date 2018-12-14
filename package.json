@@ -1,6 +1,6 @@
 {
  "name": "fween",
- "version": "1.0.0",
+ "version": "0.1.0",
  "description": "Fween animates things",
  "main": "./dist/Fween.umd.js",
  "module": "./dist/Fween.es.js",
