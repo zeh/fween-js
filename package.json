@@ -1,13 +1,24 @@
 {
   "name": "fween-js",
   "version": "1.0.0",
-  "description": "Fween",
+  "description": "Fween animates things",
   "repository": {
     "type": "git",
     "url": "https://github.com/zeh/fween-js.git"
   },
-  "author": "Zeh Fernando",
-  "homepage": "https://github.com/zeh/typescript-tidbits",
+	"bugs": {
+		"url": "https://github.com/zeh/fween-js/issues"
+	},
+  "keywords": [
+		"animation",
+		"transitions",
+		"tweening",
+		"tween",
+		"tweener"
+	],
+  "author": "Zeh Fernando <npm@zehfernando.com> http://zehfernando.com",
+	"license": "MIT",
+  "homepage": "https://github.com/zeh/fween-js#readme",
   "devDependencies": {
     "tslint": "^5.11.0",
     "typescript": "^3.2.2"
