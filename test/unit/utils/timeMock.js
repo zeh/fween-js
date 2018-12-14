@@ -69,6 +69,8 @@ export function disableTimeMocks() {
 
 		global.requestAnimationFrame = originalRequestAnimationFrame;
 		global.cancelAnimationFrame = originalCancelAnimationFrame;
+
+		MockDate.reset();
 	}
 }
 
