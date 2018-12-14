@@ -38,7 +38,6 @@
   "babel-core": "7.0.0-bridge.0",
   "babel-jest": "^23.6.0",
   "jest": "^23.6.0",
-  "regenerator-runtime": "^0.13.1",
   "rimraf": "^2.6.2",
   "rollup": "^0.67.4",
   "rollup-plugin-node-resolve": "^4.0.0",
@@ -47,7 +46,7 @@
   "typescript": "^3.2.2"
  },
  "dependencies": {
-  "moremath": "^1.1.6",
-  "simplesignal": "^4.0.0"
+  "moremath": "^2.0.2",
+  "simplesignal": "^4.0.1"
  }
 }

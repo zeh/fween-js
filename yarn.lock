@@ -1087,9 +1087,9 @@ camelcase@^4.1.0:
   integrity sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0=
 
 caniuse-lite@^1.0.30000912:
-  version "1.0.30000918"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000918.tgz#6288f79da3c5c8b45e502f47ad8f3eb91f1379a9"
-  integrity sha512-CAZ9QXGViBvhHnmIHhsTPSWFBujDaelKnUj7wwImbyQRxmXynYqKGi3UaZTSz9MoVh+1EVxOS/DFIkrJYgR3aw==
+  version "1.0.30000921"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000921.tgz#7a607c1623444b22351d834e093aedda3c42fbe8"
+  integrity sha512-Bu09ciy0lMWLgpYC77I0YGuI8eFRBPPzaSOYJK1jTI64txCphYCqnWbxJYjHABYVt/TYX/p3jNjLBR87u1Bfpw==
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -2962,10 +2962,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moremath@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/moremath/-/moremath-1.1.6.tgz#462400369c69dd4ed6a2bd65652494539e3de7b7"
-  integrity sha1-RiQANpxp3U7Wor1lZSSUU54957c=
+moremath@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/moremath/-/moremath-2.0.2.tgz#d3574121e2084d4645ab6c9ba7d253e72b11fece"
+  integrity sha512-8PDp2buFNY3bpZAX3QSSbCdYV5Bigvngba/TQwHM/UPw6gKr8wZWu4I2SnGwzEGzz5J+m6g2fiDYdrWyR51+Tw==
 
 ms@2.0.0:
   version "2.0.0"
@@ -3484,11 +3484,6 @@ regenerator-runtime@^0.11.0:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
-regenerator-runtime@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.1.tgz#522ea2aafd9200a00eee143dc14219a35a0f3991"
-  integrity sha512-5KzMIyPLvfdPmvsdlYsHqITrDfK9k7bmvf97HvHSN4810i254ponbxCQ1NukpRWlu6en2MBWzAlhDExEKISwAA==
-
 regenerator-transform@^0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.13.3.tgz#264bd9ff38a8ce24b06e0636496b2c856b57bcbb"
@@ -3778,10 +3773,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-simplesignal@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/simplesignal/-/simplesignal-4.0.0.tgz#c92bdb8538d933afedb85e589984d6e680545adc"
-  integrity sha512-g6Nhf3mj5ZpbPYNUPz58NhpOZKRsEiGt4U1NTuffTqqEM8KKYvmTElKHSKez+KnnjNYg6ed/yq7UEtRA9naqSg==
+simplesignal@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/simplesignal/-/simplesignal-4.0.1.tgz#d76daaad5ca2561775f4d3a866e568beaa9db41b"
+  integrity sha512-2h9uErDD7uee5n9smR8YK5NwISNt7X07gqW1CTgOwfg/XeJyqxV79u/xujs7NdwpqSPpVsDOstSCTnA2QakXjg==
 
 sisteransi@^0.1.1:
   version "0.1.1"
