@@ -1,26 +1,53 @@
 {
-  "name": "fween-js",
-  "version": "1.0.0",
-  "description": "Fween animates things",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zeh/fween-js.git"
-  },
-	"bugs": {
-		"url": "https://github.com/zeh/fween-js/issues"
-	},
-  "keywords": [
-		"animation",
-		"transitions",
-		"tweening",
-		"tween",
-		"tweener"
-	],
-  "author": "Zeh Fernando <npm@zehfernando.com> http://zehfernando.com",
-	"license": "MIT",
-  "homepage": "https://github.com/zeh/fween-js#readme",
-  "devDependencies": {
-    "tslint": "^5.11.0",
-    "typescript": "^3.2.2"
-  }
+ "name": "fween-js",
+ "version": "1.0.0",
+ "description": "Fween animates things",
+ "main": "./dist/Fween.umd.js",
+ "module": "./dist/Fween.es.js",
+ "types": "./src/Fween.d.ts",
+ "scripts": {
+  "build": "rimraf dist && rollup -c",
+  "build:declarations": "tsc -d",
+  "test": "jest --testMatch **/test/**/*-test-*.js",
+  "test:coverage": "npm run test -- --coverage",
+  "test:coverage:coveralls": "npm run test -- --coverage --coverageReporters=text-lcov | coveralls",
+  "test:watch": "npm run test -- --watchAll",
+  "lint": "tslint -c tslint.json src/*.ts",
+  "prepublish": "npm run build && npm run build:declarations"
+ },
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/zeh/fween-js.git"
+ },
+ "bugs": {
+  "url": "https://github.com/zeh/fween-js/issues"
+ },
+ "keywords": [
+  "animation",
+  "transitions",
+  "tweening",
+  "tween",
+  "tweener"
+ ],
+ "author": "Zeh Fernando <npm@zehfernando.com> http://zehfernando.com",
+ "license": "MIT",
+ "homepage": "https://github.com/zeh/fween-js#readme",
+ "devDependencies": {
+  "@babel/core": "^7.2.0",
+  "@babel/preset-env": "^7.2.0",
+  "babel-core": "7.0.0-bridge.0",
+  "babel-jest": "^23.6.0",
+  "jest": "^23.6.0",
+  "regenerator-runtime": "^0.13.1",
+  "rimraf": "^2.6.2",
+  "rollup": "^0.67.4",
+  "rollup-plugin-node-resolve": "^4.0.0",
+  "rollup-plugin-typescript": "^1.0.0",
+  "tslint": "^5.11.0",
+  "typescript": "^3.2.2"
+ },
+ "dependencies": {
+  "moremath": "^1.1.6",
+  "simplesignal": "^4.0.0"
+ }
 }

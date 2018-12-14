@@ -1,3 +1,2 @@
-js-es5/* linguist-vendored
-js-es6/* linguist-vendored
-js-min/* linguist-vendored
+dist/* linguist-vendored
+test/* linguist-vendored
