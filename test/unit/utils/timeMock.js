@@ -43,9 +43,9 @@ export function enableTimeMocks() {
 	}
 }
 
-export function timeTravel(durationMs, step = 100) {
+export function timeTravel(durationMs, step = 10) {
 	if (enabled) {
-		const tickTravel = tickDurationMs => {
+		const tickTravel = (tickDurationMs) => {
 			jest.advanceTimersByTime(tickDurationMs);
 			const now = Date.now();
 			MockDate.set(new Date(now + tickDurationMs));
