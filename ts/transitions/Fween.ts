@@ -164,22 +164,27 @@ export class FweenSequence {
 	 */
 	public seek(time:number) {
 		this._time = time;
+		this._startTime = Fween.getTicker().getTime() - this._time;
 		let newStep = this.getStepForTime(this._time);
+		console.log("seeking to time " + time + ", step is " + newStep + " of " + this._stepsMetadatas.length + ", was " + this._currentStep);
 		if (newStep !== this._currentStep) {
 			// TODO: better treatment of .start/.end/.hasStarted/.hasCompleted when switching.. when going forward and backward....
 			if (newStep < this._currentStep) {
 				// Going back
-				for (let i = this._currentStep; i < this._currentStep; i++) {
-
+				for (let i = newStep; i <= this._currentStep && i < this._stepsMetadatas.length; i++) {
+					this._stepsMetadatas[i].hasCompleted = false;
+					this._stepsMetadatas[i].hasStarted = false;
 				}
 			} else {
 				// Going forward
-				for (let i = this._currentStep; i < this._currentStep; i++) {
-
+				for (let i = this._currentStep; i < newStep; i++) {
+					this._stepsMetadatas[i].hasCompleted = true;
+					this._stepsMetadatas[i].hasStarted = true;
 				}
 			}
 		}
-		this.update();
+		this._currentStep = newStep;
+		this.update(true);
 	}
 
 
@@ -218,7 +223,7 @@ export class FweenSequence {
 	 * Wait a number of seconds
 	 */
 	public wait(duration:number):FweenSequence {
-		this._duration += this._duration;
+		this._duration += duration;
 		return this;
 	}
 
@@ -249,24 +254,27 @@ export class FweenSequence {
 		return 0;
 	}
 
-	public update():void {
+	public update(force:boolean = false):void {
 		// Update current step(s) based on the time
 
 		// Check if finished
 		if (this._currentStep >= this._steps.length) {
-			this.destroy();
+			this.pause();
 		} else {
-			let shouldUpdateOnce = this._isPlaying;
+			let shouldUpdateOnce = this._isPlaying || force;
 			this._time = Fween.getTicker().getTime() - this._startTime;
+			console.log("will update at @ " + this._time);
 
 			while (shouldUpdateOnce && this._currentStep < this._steps.length) {
 				shouldUpdateOnce = false;
+				console.log("updating @ " + this._time);
 
 				if (this._time >= this._stepsMetadatas[this._currentStep].timeStart) {
 					// Start the current tween step if necessary
 					if (!this._stepsMetadatas[this._currentStep].hasStarted) {
 						this._steps[this._currentStep].start();
 						this._stepsMetadatas[this._currentStep].hasStarted = true;
+						if (force) console.log(" => START");
 					}
 
 					// Update the current tween step
@@ -281,6 +289,8 @@ export class FweenSequence {
 						)
 					);
 
+					if (force) console.log(" => UPDATE @ " + this._stepsMetadatas[this._currentStep].timeStart + " ==> " + this._time + " ==> " + this._stepsMetadatas[this._currentStep].timeEnd);
+
 					// Check if it's finished
 					if (this._time >= this._stepsMetadatas[this._currentStep].timeEnd) {
 						if (!this._stepsMetadatas[this._currentStep].hasCompleted) {
@@ -289,6 +299,8 @@ export class FweenSequence {
 							shouldUpdateOnce = true;
 							this._currentStep++;
 						}
+
+						if (force) console.log(" => END");
 					}
 				}
 			}
@@ -297,10 +309,6 @@ export class FweenSequence {
 
 	protected getTransition(transition:(t:number) => number):(t:number) => number {
 		return transition == null ? Easing.none : transition;
-	}
-
-	private destroy():void {
-		Fween.getTicker().remove(this);
 	}
 }
 
@@ -462,6 +470,7 @@ class FweenStepValueTo {
 	}
 
 	public update(t:number):void {
+		console.log("TO UPDATE = " + t + ", from " + this._startValue + " to " + this._targetValue);
 		this._targetSet(MathUtils.map(this._transition(t), 0, 1, this._startValue, this._targetValue));
 	}
 
