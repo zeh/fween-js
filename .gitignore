@@ -4,8 +4,8 @@ coverage
 dist
 node_modules
 npm-debug.log
-src/*.js
-src/*.d.ts
+src/**/*.js
+src/**/*.d.ts
 yarn-error.log
 _*.txt
 _*.bat
