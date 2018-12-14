@@ -4,7 +4,7 @@ const obj = {};
 
 describe("Fween (ES6)", () => {
 	test("is a class", function() {
-		expect(SimpleSignal).not.toBe("function");
+		expect(Fween).not.toBe("function");
 	});
 
 	test("can be instantiated", () => {
