@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"diagnostics": true,
-		"module": "es6",
+		"module": "commonjs",
 		"target": "es5",
 		"lib": ["dom", "es2015", "es2016", "es2017"],
 		"declaration": true,
@@ -12,7 +12,7 @@
 		"declarationDir": "dist/"
 	},
 	"include": [
-		"src"
+		"src",
 	],
 	"exclude": [
 		"node_modules"
