@@ -1,4 +1,4 @@
-import ImportedEasing from "./easings/Easing";
+import Easing from "./easings/Easing";
 
 import FweenSequence from "./default/FweenSequence";
 import FweenTicker from "./FweenTicker";
@@ -39,34 +39,38 @@ TODO:
 
 */
 
-export const Easing = ImportedEasing;
 
-export default class Fween {
+let ticker: FweenTicker;
 
-	private static ticker: FweenTicker;
-
-	// Properties
-
-	// ================================================================================================================
-	// PUBLIC STATIC INTERFACE ----------------------------------------------------------------------------------------
-
-	public static use(p1: (t: number) => void): FweenSetterSequence;
-	public static use(p1: object): FweenObjectSequence;
-	public static use(p1: any): FweenSequence | null {
-		if (typeof(p1) === "object") {
-			// Object
-			return new FweenObjectSequence(p1);
-		} else if (typeof(p1) === "function") {
-			// Setter sequence
-			return new FweenSetterSequence(p1);
-		}
-
-		console.error("Tweening parameters were not understood.");
-		return null;
+function use(p1: (t: number) => void): FweenSetterSequence;
+function use(p1: object): FweenObjectSequence;
+function use(p1: any): FweenSequence | null {
+	if (typeof(p1) === "object") {
+		// Object
+		return new FweenObjectSequence(p1);
+	} else if (typeof(p1) === "function") {
+		// Setter sequence
+		return new FweenSetterSequence(p1);
 	}
 
-	public static getTicker(): FweenTicker {
-		if (!this.ticker) this.ticker = new FweenTicker();
-		return this.ticker;
-	}
+	console.error("Tweening parameters were not understood.");
+	return null;
 }
+
+function resetTicker() {
+	ticker = new FweenTicker();
+}
+
+function getTicker(): FweenTicker {
+	if (!ticker) ticker = new FweenTicker();
+	return ticker;
+}
+
+const Fween = {
+	use,
+	getTicker,
+	resetTicker,
+	Easing,
+};
+
+export default Fween;
