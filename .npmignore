@@ -7,12 +7,13 @@ _*.txt
 .travis.yml
 .tscache
 .vscode
-src
-temp
-test
 node_modules
 npm-debug.log
 rollup.config.js
+src
+temp
+test
 tsconfig.json
 tslint.json
+yarn-error.log
 yarn.lock
