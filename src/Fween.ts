@@ -1,9 +1,9 @@
-import Easing from "./easings/Easing";
+import ImportedEasing from "./easings/Easing";
 
-import FweenObjectSequence from "./object/FweenObjectSequence";
 import FweenSequence from "./default/FweenSequence";
-import FweenSetterSequence from "./setter/FweenSetterSequence";
 import FweenTicker from "./FweenTicker";
+import FweenObjectSequence from "./object/FweenObjectSequence";
+import FweenSetterSequence from "./setter/FweenSetterSequence";
 
 
 /*
@@ -38,6 +38,8 @@ TODO:
 	.seek()
 
 */
+
+export const Easing = ImportedEasing;
 
 export default class Fween {
 
