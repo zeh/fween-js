@@ -19,6 +19,7 @@ export default class FweenStepValuesTo {
 		this._targetGet = targetGet;
 		this._targetSet = targetSet;
 		this._duration = duration;
+		this._startValues = {};
 		this._targetValues = targetValues;
 		this._transition = transition;
 		this._names = Object.keys(targetValues);

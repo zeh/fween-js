@@ -16,6 +16,7 @@ export default class FweenStepValueTo {
 		this._targetGet = targetGet;
 		this._targetSet = targetSet;
 		this._duration = duration;
+		this._startValue = 0;
 		this._targetValue = targetValue;
 		this._transition = transition;
 	}

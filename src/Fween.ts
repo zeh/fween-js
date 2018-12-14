@@ -1,4 +1,4 @@
-import Easing from "./../Easing";
+import Easing from "./easings/Easing";
 
 import FweenObjectSequence from "./object/FweenObjectSequence";
 import FweenSequence from "./default/FweenSequence";
