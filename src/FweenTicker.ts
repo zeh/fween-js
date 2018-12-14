@@ -21,22 +21,6 @@ export default class FweenTicker {
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
-	private update(): void {
-		window.requestAnimationFrame(this.update);
-
-		this.time = Date.now() / 1000;
-
-		for (let i = 0; i < this.sequences.length; i++) {
-			const sequence = this.sequences[i];
-			if (sequence) {
-				sequence.update();
-			} else {
-				this.sequences.splice(i, 1);
-				i--;
-			}
-		}
-	}
-
 	public getTime(): number {
 		return this.time;
 	}
@@ -49,5 +33,25 @@ export default class FweenTicker {
 		// Nullify first, remove later - otherwise it gets remove while doing Update(), which can cause the list to trip over itself
 		const idx = this.sequences.indexOf(sequence);
 		if (idx > -1) this.sequences[idx] = null;
+	}
+
+
+	// ================================================================================================================
+	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------
+
+	private update(): void {
+		((global || window) as any).requestAnimationFrame(this.update);
+
+		this.time = Date.now() / 1000;
+
+		for (let i = 0; i < this.sequences.length; i++) {
+			const sequence = this.sequences[i];
+			if (sequence) {
+				sequence.update();
+			} else {
+				this.sequences.splice(i, 1);
+				i--;
+			}
+		}
 	}
 }
