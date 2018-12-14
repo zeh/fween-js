@@ -9,7 +9,7 @@
 		"removeComments": false,
 		"newLine": "LF",
 		"outDir": "temp/",
-		"declarationDir": "dist/"
+		"declarationDir": "dist/types/"
 	},
 	"include": [
 		"src",
