@@ -24,7 +24,6 @@ export default class FweenStepValueFrom {
 	public update(t: number): void { }
 
 	public end(): void {
-		console.log("[FROM] UPDATE @ ", typeof(this._targetValue) === "function" ? this._targetValue() : this._targetValue);
 		this._targetSet(typeof(this._targetValue) === "function" ? this._targetValue() : this._targetValue);
 	}
 
