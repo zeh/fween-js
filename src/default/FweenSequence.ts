@@ -1,10 +1,11 @@
 import { map } from "moremath";
 
 import Easing from "../easings/Easing";
-import Fween from "../Fween";
-import FweenStepCall from "./steps/FweenStepCall";
 import FweenStepMetadata from "../FweenStepMetadata";
+import FweenTicker from "../FweenTicker";
+import FweenStepCall from "./steps/FweenStepCall";
 import FweenStepWait from "./steps/FweenStepWait";
+
 import IFweenStep from "../IFweenStep";
 
 export default class FweenSequence {
@@ -22,13 +23,16 @@ export default class FweenSequence {
 	private _executedTime: number = 0.0;
 	private _duration: number = 0.0;
 
+	private _ticker: FweenTicker;
+
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
-	constructor() {
+	constructor(ticker: FweenTicker) {
 		// Create a new Fween
-		this._startTime = Fween.getTicker().getTime();
+		this._ticker = ticker;
+		this._startTime = this._ticker.getTime();
 	}
 
 
@@ -43,9 +47,9 @@ export default class FweenSequence {
 	public play(): FweenSequence {
 		if (!this._isPlaying) {
 			this._isPlaying = true;
-			let timePaused = Fween.getTicker().getTime() - this._pauseTime;
+			const timePaused = this._ticker.getTime() - this._pauseTime;
 			this._startTime += timePaused;
-			Fween.getTicker().add(this);
+			this._ticker.add(this);
 		}
 		return this;
 	}
@@ -56,8 +60,8 @@ export default class FweenSequence {
 	public pause(): FweenSequence {
 		if (this._isPlaying) {
 			this._isPlaying = false;
-			this._pauseTime = Fween.getTicker().getTime();
-			Fween.getTicker().remove(this);
+			this._pauseTime = this._ticker.getTime();
+			this._ticker.remove(this);
 		}
 		return this;
 	}
@@ -69,7 +73,7 @@ export default class FweenSequence {
 		if (this._isPlaying) {
 			this.pause();
 			// TODO: do pause() and seek() instead
-			this._startTime = Fween.getTicker().getTime();
+			this._startTime = this._ticker.getTime();
 			this._executedTime = 0;
 		}
 		return this;
@@ -126,7 +130,7 @@ export default class FweenSequence {
 			while (shouldUpdateOnce && this._currentStep < this._steps.length) {
 				shouldUpdateOnce = false;
 
-				if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeStart) {
+				if (this._ticker.getTime() >= this._stepsMetadatas[this._currentStep].timeStart) {
 					// Start the current tween step if necessary
 					if (!this._stepsMetadatas[this._currentStep].hasStarted) {
 						this._steps[this._currentStep].start();
@@ -134,10 +138,10 @@ export default class FweenSequence {
 					}
 
 					// Update the current tween step
-					this._steps[this._currentStep].update(map(Fween.getTicker().getTime(), this._stepsMetadatas[this._currentStep].timeStart, this._stepsMetadatas[this._currentStep].timeEnd, 0, 1, true));
+					this._steps[this._currentStep].update(map(this._ticker.getTime(), this._stepsMetadatas[this._currentStep].timeStart, this._stepsMetadatas[this._currentStep].timeEnd, 0, 1, true));
 
 					// Check if it's finished
-					if (Fween.getTicker().getTime() >= this._stepsMetadatas[this._currentStep].timeEnd) {
+					if (this._ticker.getTime() >= this._stepsMetadatas[this._currentStep].timeEnd) {
 						if (!this._stepsMetadatas[this._currentStep].hasCompleted) {
 							this._steps[this._currentStep].end();
 							this._stepsMetadatas[this._currentStep].hasCompleted = true;
@@ -156,6 +160,6 @@ export default class FweenSequence {
 	}
 
 	private destroy(): void {
-		Fween.getTicker().remove(this);
+		this._ticker.remove(this);
 	}
 }

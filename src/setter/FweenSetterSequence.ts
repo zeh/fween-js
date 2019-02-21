@@ -1,4 +1,5 @@
 import FweenSequence from "../default/FweenSequence";
+import FweenTicker from "../FweenTicker";
 import FweenStepValueFrom from "./steps/FweenStepValueFrom";
 import FweenStepValueTo from "./steps/FweenStepValueTo";
 
@@ -14,8 +15,8 @@ export default class FweenSetterSequence extends FweenSequence {
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
-	constructor(targetSet: (value: number) => void) {
-		super();
+	constructor(targetSet: (value: number) => void, ticker: FweenTicker) {
+		super(ticker);
 
 		this._targetValue = 0;
 		this._targetSet = targetSet;

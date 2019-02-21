@@ -47,10 +47,10 @@ function use(p1: object): FweenObjectSequence;
 function use(p1: any): FweenSequence | null {
 	if (typeof(p1) === "object") {
 		// Object
-		return new FweenObjectSequence(p1);
+		return new FweenObjectSequence(p1, getTicker());
 	} else if (typeof(p1) === "function") {
 		// Setter sequence
-		return new FweenSetterSequence(p1);
+		return new FweenSetterSequence(p1, getTicker());
 	}
 
 	console.error("Tweening parameters were not understood.");
