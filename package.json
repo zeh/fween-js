@@ -1,6 +1,6 @@
 {
 	"name": "fween",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Fween animates things",
 	"main": "./dist/Fween.umd.js",
 	"module": "./dist/Fween.es.js",
@@ -48,7 +48,7 @@
 		"typescript": "^3.2.2"
 	},
 	"dependencies": {
-	"moremath": "^2.0.2",
+		"moremath": "^2.0.2",
 		"simplesignal": "^4.0.1"
 	}
 }
