@@ -1,5 +1,3 @@
-import Easing from "./easings/Easing";
-
 import FweenSequence from "./default/FweenSequence";
 import FweenTicker from "./FweenTicker";
 import FweenObjectSequence from "./object/FweenObjectSequence";
@@ -70,7 +68,6 @@ const Fween = {
 	use,
 	getTicker,
 	resetTicker,
-	Easing,
 };
 
 export default Fween;

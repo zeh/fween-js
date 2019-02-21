@@ -1,5 +1,27 @@
-import Fween, { Easing } from "./../../dist/Fween.umd";
+import { Fween, Easing, FweenSequence, FweenObjectSequence, FweenSetterSequence } from "./../../dist/Fween.umd";
 import { enableTimeMocks, timeTravel, disableTimeMocks } from "./utils/timeMock";
+
+describe("exports", () => {
+	it("Fween", function() {
+		expect(Fween).not.toBe("function");
+	});
+
+	it("Easing", function() {
+		expect(Fween).not.toBe("function");
+	});
+
+	it("FweenSequence", function() {
+		expect(FweenSequence).not.toBe("function");
+	});
+
+	it("FweenObjectSequence", function() {
+		expect(FweenObjectSequence).not.toBe("function");
+	});
+
+	it("FweenSetterSequence", function() {
+		expect(FweenSetterSequence).not.toBe("function");
+	});
+});
 
 describe("Fween (ES6)", () => {
 	beforeEach(() => {
@@ -11,16 +33,12 @@ describe("Fween (ES6)", () => {
 		disableTimeMocks();
 	})
 
-	test("is a module", function() {
-		expect(Fween).not.toBe("function");
-	});
-
-	test("can be instantiated", () => {
+	it("can be instantiated", () => {
 		const obj = {};
 		expect(Fween.use(obj)).toBeDefined();
 	});
 
-	test("can update an object", () => {
+	it("can update an object", () => {
 		const obj = { value: 0 };
 		expect(obj.value).toBe(0);
 		Fween.use(obj).to({value: 1}, 0.1).play();
@@ -34,7 +52,7 @@ describe("Fween (ES6)", () => {
 		expect(obj.value).toBe(2);
 	});
 
-	test("can update an object, easing", () => {
+	it("can update an object, easing", () => {
 		const obj = { value: 0 };
 		expect(obj.value).toBe(0);
 		Fween.use(obj).to({value: 1}, 0.1, Easing.quadOut).play();
@@ -42,7 +60,7 @@ describe("Fween (ES6)", () => {
 		expect(obj.value).toBe(1);
 	});
 
-	test("can call a function", () => {
+	it("can call a function", () => {
 		const fn1 = jest.fn();
 		const fn2 = jest.fn();
 

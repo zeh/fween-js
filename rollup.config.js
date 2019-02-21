@@ -3,7 +3,7 @@ import resolve from "rollup-plugin-node-resolve";
 import pkg from "./package.json";
 
 export default {
-	input: "src/Fween.ts",
+	input: "src/index.ts",
 	output: [
 		{ name: "fween", sourcemap: false, file: pkg.module, format: "es" },
 		{
