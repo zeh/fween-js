@@ -4,7 +4,7 @@
 	"description": "Fween animates things",
 	"main": "./dist/Fween.umd.js",
 	"module": "./dist/Fween.es.js",
-	"types": "./dist/types/Fween.d.ts",
+	"types": "./dist/types/index.d.ts",
 	"scripts": {
 		"build": "rimraf dist && rollup -c",
 		"build:declarations": "tsc -d",
