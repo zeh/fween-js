@@ -2,6 +2,7 @@ _*.bat
 _*.txt
 .babelrc
 .coveralls.yml
+.eslintrc.js
 .gitattributes
 .nyc_output
 .travis.yml
@@ -9,11 +10,11 @@ _*.txt
 .vscode
 node_modules
 npm-debug.log
+prettier.config.js
 rollup.config.js
 src
 temp
 test
 tsconfig.json
-tslint.json
 yarn-error.log
 yarn.lock
