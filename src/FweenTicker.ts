@@ -38,7 +38,7 @@ export default class FweenTicker {
 	private update(): void {
 		globalThis.requestAnimationFrame(this.update);
 
-		this.time = Date.now() / 1000;
+		this.time = performance.now() / 1000;
 
 		for (let i = 0; i < this.sequences.length; i++) {
 			const sequence = this.sequences[i];
