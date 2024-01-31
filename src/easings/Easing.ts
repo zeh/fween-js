@@ -23,7 +23,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 
 export default class Easing {
-
 	// Constants
 	private static HALF_PI: number = Math.PI / 2;
 	private static TWO_PI: number = Math.PI * 2;
@@ -69,7 +68,7 @@ export default class Easing {
 	 */
 	public static quadInOut(t: number): number {
 		//return t < 0.5 ? quadIn(t*2) : quadOut((t-0.5)*2);
-		return ((t *= 2) < 1) ? t * t * 0.5 : -0.5 * (--t * (t - 2) - 1);
+		return (t *= 2) < 1 ? t * t * 0.5 : -0.5 * (--t * (t - 2) - 1);
 	}
 
 	/**
@@ -178,7 +177,7 @@ export default class Easing {
 	 */
 	public static expoIn(t: number): number {
 		// return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b; // original
-		return (t == 0) ? 0 : Math.pow(2, 10 * (t - 1)) - 0.001; // ztween fixed
+		return t == 0 ? 0 : Math.pow(2, 10 * (t - 1)) - 0.001; // ztween fixed
 	}
 
 	/**
@@ -193,7 +192,7 @@ export default class Easing {
 		// return (t == d) ? b + c : c * 1.001 * (-Math.pow(2, -10 * t / d) + 1) + b; // tweener fixed
 		//log(">", t, (t==1) ? 1 : 1.001 * (-Math.pow(2, -10 * t) + 1))
 		//return (t==1) ? 1 : 1.001 * (-Math.pow(2, -10 * t) + 1); // ztween fixed
-		return (t >= 0.999) ? 1 : 1.001 * (-Math.pow(2, -10 * t) + 1); // ztween fixed 2
+		return t >= 0.999 ? 1 : 1.001 * (-Math.pow(2, -10 * t) + 1); // ztween fixed 2
 	}
 
 	public static expoInOut(t: number): number {
@@ -236,14 +235,14 @@ export default class Easing {
 	public static elasticIn(t: number, a: number = 0, p: number = 0.3): number {
 		if (t == 0) return 0;
 		if (t == 1) return 1;
-		var s: number;
+		let s: number;
 		if (a < 1) {
 			a = 1;
 			s = p / 4;
 		} else {
-			s = p / Easing.TWO_PI * Math.asin(1 / a);
+			s = (p / Easing.TWO_PI) * Math.asin(1 / a);
 		}
-		return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * Easing.TWO_PI / p));
+		return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t - s) * Easing.TWO_PI) / p));
 	}
 
 	/**
@@ -256,14 +255,14 @@ export default class Easing {
 	public static elasticOut(t: number, a: number = 0, p: number = 0.3): number {
 		if (t == 0) return 0;
 		if (t == 1) return 1;
-		var s: number;
+		let s: number;
 		if (a < 1) {
 			a = 1;
 			s = p / 4;
 		} else {
-			s = p / Easing.TWO_PI * Math.asin(1 / a);
+			s = (p / Easing.TWO_PI) * Math.asin(1 / a);
 		}
-		return (a * Math.pow(2, -10 * t) * Math.sin((t - s) * Easing.TWO_PI / p) + 1);
+		return a * Math.pow(2, -10 * t) * Math.sin(((t - s) * Easing.TWO_PI) / p) + 1;
 	}
 
 	/**
@@ -292,7 +291,7 @@ export default class Easing {
 	public static backOutWith(overshoot: number = 1.70158) {
 		return (t: number) => {
 			return this.backOut(t, overshoot);
-		}
+		};
 	}
 
 	public static backInOut(t: number): number {
@@ -316,25 +315,24 @@ export default class Easing {
 	 * @param	p			Period.
 	 */
 	public static bounceOut(t: number): number {
-		if (t < (1 / 2.75)) {
+		if (t < 1 / 2.75) {
 			return 7.5625 * t * t;
-		} else if (t < (2 / 2.75)) {
-			return 7.5625 * (t -= (1.5 / 2.75)) * t + .75;
-		} else if (t < (2.5 / 2.75)) {
-			return 7.5625 * (t -= (2.25 / 2.75)) * t + .9375;
+		} else if (t < 2 / 2.75) {
+			return 7.5625 * (t -= 1.5 / 2.75) * t + 0.75;
+		} else if (t < 2.5 / 2.75) {
+			return 7.5625 * (t -= 2.25 / 2.75) * t + 0.9375;
 		} else {
-			return 7.5625 * (t -= (2.625 / 2.75)) * t + .984375;
+			return 7.5625 * (t -= 2.625 / 2.75) * t + 0.984375;
 		}
 	}
-
 
 	// ================================================================================================================
 	// COMBINATOR -----------------------------------------------------------------------------------------------------
 
-	public static combined(t: number, __equations: any[]): number {
-		let l: number = __equations.length;
+	public static combined(t: number, equations: any[]): number {
+		const l: number = equations.length;
 		let eq: number = Math.floor(t * l);
-		if (eq === __equations.length) eq = l - 1;
-		return Number(__equations[eq](t * l - eq));
+		if (eq === equations.length) eq = l - 1;
+		return Number(equations[eq](t * l - eq));
 	}
 }

@@ -3,7 +3,6 @@ import FweenTicker from "./FweenTicker";
 import FweenObjectSequence from "./object/FweenObjectSequence";
 import FweenSetterSequence from "./setter/FweenSetterSequence";
 
-
 /*
 Ideas for tweening - from https://github.com/zeh/unity-tidbits/blob/master/transitions/ZTween.cs
 
@@ -37,16 +36,15 @@ TODO:
 
 */
 
-
 let ticker: FweenTicker;
 
 function use(p1: (t: number) => void): FweenSetterSequence;
 function use(p1: object): FweenObjectSequence;
 function use(p1: any): FweenSequence | null {
-	if (typeof(p1) === "object") {
+	if (typeof p1 === "object") {
 		// Object
 		return new FweenObjectSequence(p1, getTicker());
-	} else if (typeof(p1) === "function") {
+	} else if (typeof p1 === "function") {
 		// Setter sequence
 		return new FweenSetterSequence(p1, getTicker());
 	}
@@ -55,7 +53,7 @@ function use(p1: any): FweenSequence | null {
 	return null;
 }
 
-function resetTicker() {
+function resetTicker(): void {
 	ticker = new FweenTicker();
 }
 

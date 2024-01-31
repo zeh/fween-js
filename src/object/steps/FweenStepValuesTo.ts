@@ -3,7 +3,6 @@ import { map } from "moremath";
 type ValuesObject = { [key: string]: number };
 
 export default class FweenStepValuesTo {
-
 	// A step to tween to an object with values
 
 	// Properties
@@ -15,7 +14,16 @@ export default class FweenStepValuesTo {
 	private _transition: (t: number) => number;
 	private _names: string[];
 
-	constructor(targetGet: (name: string) => number, targetSet: (name: string, value: number) => void, targetValues: ValuesObject, duration: number, transition: (t: number) => number) {
+	// ================================================================================================================
+	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
+
+	constructor(
+		targetGet: (name: string) => number,
+		targetSet: (name: string, value: number) => void,
+		targetValues: ValuesObject,
+		duration: number,
+		transition: (t: number) => number,
+	) {
 		this._targetGet = targetGet;
 		this._targetSet = targetSet;
 		this._duration = duration;

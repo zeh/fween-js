@@ -1,11 +1,9 @@
 export default class FweenStepValueFrom {
-
 	// A step to set the starting value
 
 	// Properties
 	private _targetSet: (value: number) => void;
 	private _targetValue: number | (() => number);
-
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
@@ -15,16 +13,15 @@ export default class FweenStepValueFrom {
 		this._targetValue = targetValue;
 	}
 
-
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
-	public start(): void { }
+	public start(): void {}
 
-	public update(t: number): void { }
+	public update(t: number): void {}
 
 	public end(): void {
-		this._targetSet(typeof(this._targetValue) === "function" ? this._targetValue() : this._targetValue);
+		this._targetSet(typeof this._targetValue === "function" ? this._targetValue() : this._targetValue);
 	}
 
 	public getDuration(): number {

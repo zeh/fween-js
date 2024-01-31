@@ -1,8 +1,6 @@
 export default class FweenStepCall {
-
 	// A step to call a function
 	private _action: Function;
-
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
@@ -11,13 +9,12 @@ export default class FweenStepCall {
 		this._action = func;
 	}
 
-
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
-	public start(): void { }
+	public start(): void {}
 
-	public update(t: number): void { }
+	public update(t: number): void {}
 
 	public end(): void {
 		this._action();

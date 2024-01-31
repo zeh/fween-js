@@ -1,13 +1,11 @@
 import FweenSequence from "./default/FweenSequence";
 
 export default class FweenTicker {
-
 	// Ticker class to control updates
 
 	// Properties
 	private sequences: Array<FweenSequence | null> = [];
 	private time: number = 0.0;
-
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
@@ -16,7 +14,6 @@ export default class FweenTicker {
 		this.update = this.update.bind(this);
 		this.update();
 	}
-
 
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
@@ -34,7 +31,6 @@ export default class FweenTicker {
 		const idx = this.sequences.indexOf(sequence);
 		if (idx > -1) this.sequences[idx] = null;
 	}
-
 
 	// ================================================================================================================
 	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------

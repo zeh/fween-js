@@ -9,7 +9,6 @@ import FweenStepWait from "./steps/FweenStepWait";
 import IFweenStep from "../IFweenStep";
 
 export default class FweenSequence {
-
 	// One sequence of steps
 
 	// Properties
@@ -25,7 +24,6 @@ export default class FweenSequence {
 
 	private _ticker: FweenTicker;
 
-
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
 
@@ -34,7 +32,6 @@ export default class FweenSequence {
 		this._ticker = ticker;
 		this._startTime = this._ticker.getTime();
 	}
-
 
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
@@ -101,7 +98,6 @@ export default class FweenSequence {
 		return this;
 	}
 
-
 	// ================================================================================================================
 	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------
 
@@ -110,7 +106,7 @@ export default class FweenSequence {
 	protected addStep(step: IFweenStep): void {
 		this._steps.push(step);
 
-		let tweenMetadata = new FweenStepMetadata();
+		const tweenMetadata = new FweenStepMetadata();
 		tweenMetadata.timeStart = this._startTime + this._duration;
 		this._duration += step.getDuration();
 		tweenMetadata.timeEnd = this._startTime + this._duration;
@@ -138,7 +134,16 @@ export default class FweenSequence {
 					}
 
 					// Update the current tween step
-					this._steps[this._currentStep].update(map(this._ticker.getTime(), this._stepsMetadatas[this._currentStep].timeStart, this._stepsMetadatas[this._currentStep].timeEnd, 0, 1, true));
+					this._steps[this._currentStep].update(
+						map(
+							this._ticker.getTime(),
+							this._stepsMetadatas[this._currentStep].timeStart,
+							this._stepsMetadatas[this._currentStep].timeEnd,
+							0,
+							1,
+							true,
+						),
+					);
 
 					// Check if it's finished
 					if (this._ticker.getTime() >= this._stepsMetadatas[this._currentStep].timeEnd) {

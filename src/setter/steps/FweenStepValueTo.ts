@@ -1,7 +1,6 @@
 import { map } from "moremath";
 
 export default class FweenStepValueTo {
-
 	// A step to tween to a value
 
 	// Properties
@@ -12,7 +11,16 @@ export default class FweenStepValueTo {
 	private _targetValue: number;
 	private _transition: (t: number) => number;
 
-	constructor(targetGet: () => number, targetSet: (value: number) => void, targetValue: number, duration: number, transition: (t: number) => number) {
+	// ================================================================================================================
+	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
+
+	constructor(
+		targetGet: () => number,
+		targetSet: (value: number) => void,
+		targetValue: number,
+		duration: number,
+		transition: (t: number) => number,
+	) {
 		this._targetGet = targetGet;
 		this._targetSet = targetSet;
 		this._duration = duration;

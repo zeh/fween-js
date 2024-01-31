@@ -3,12 +3,10 @@ import FweenTicker from "../FweenTicker";
 import FweenStepValuesTo from "./steps/FweenStepValuesTo";
 
 export default class FweenObjectSequence extends FweenSequence {
-
 	// A sequence for common objects' properties
 
 	// Properties
 	private _targetObject: any;
-
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
@@ -19,20 +17,30 @@ export default class FweenObjectSequence extends FweenSequence {
 		this._targetObject = object;
 	}
 
-
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
-	public to(values: {[key: string]: number }, duration: number = 0, transition?: (t: number) => number): FweenObjectSequence {
-		this.addStep(new FweenStepValuesTo(this.getValue.bind(this), this.setValue.bind(this), values, duration, this.getTransition(transition)));
+	public to(
+		values: { [key: string]: number },
+		duration: number = 0,
+		transition?: (t: number) => number,
+	): FweenObjectSequence {
+		this.addStep(
+			new FweenStepValuesTo(
+				this.getValue.bind(this),
+				this.setValue.bind(this),
+				values,
+				duration,
+				this.getTransition(transition),
+			),
+		);
 		return this;
 	}
-
 
 	// ================================================================================================================
 	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------
 
-	private setValue(name: string, t: number) {
+	private setValue(name: string, t: number): void {
 		this._targetObject[name] = t;
 	}
 

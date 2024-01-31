@@ -4,13 +4,11 @@ import FweenStepValueFrom from "./steps/FweenStepValueFrom";
 import FweenStepValueTo from "./steps/FweenStepValueTo";
 
 export default class FweenSetterSequence extends FweenSequence {
-
 	// A sequence that uses a setter function
 
 	// Properties
 	private _targetValue: number;
 	private _targetSet: (value: number) => void;
-
 
 	// ================================================================================================================
 	// CONSTRUCTOR ----------------------------------------------------------------------------------------------------
@@ -22,7 +20,6 @@ export default class FweenSetterSequence extends FweenSequence {
 		this._targetSet = targetSet;
 	}
 
-
 	// ================================================================================================================
 	// PUBLIC INTERFACE -----------------------------------------------------------------------------------------------
 
@@ -32,15 +29,22 @@ export default class FweenSetterSequence extends FweenSequence {
 	}
 
 	public to(value: number, duration: number = 0, transition?: (t: number) => number): FweenSetterSequence {
-		this.addStep(new FweenStepValueTo(this.getValue.bind(this), this.setValue.bind(this), value, duration, this.getTransition(transition)));
+		this.addStep(
+			new FweenStepValueTo(
+				this.getValue.bind(this),
+				this.setValue.bind(this),
+				value,
+				duration,
+				this.getTransition(transition),
+			),
+		);
 		return this;
 	}
-
 
 	// ================================================================================================================
 	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------
 
-	private setValue(t: number) {
+	private setValue(t: number): void {
 		this._targetValue = t;
 		this._targetSet(t);
 	}
