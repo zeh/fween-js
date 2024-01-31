@@ -36,7 +36,7 @@ export default class FweenTicker {
 	// PRIVATE INTERFACE ----------------------------------------------------------------------------------------------
 
 	private update(): void {
-		((global || window) as any).requestAnimationFrame(this.update);
+		globalThis.requestAnimationFrame(this.update);
 
 		this.time = Date.now() / 1000;
 
