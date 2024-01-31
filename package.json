@@ -36,22 +36,22 @@
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
 		"@babel/preset-env": "^7.23.9",
+		"@typescript-eslint/eslint-plugin": "^6.20.0",
+		"@typescript-eslint/parser": "^6.20.0",
 		"babel-jest": "^29.7.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"eslint": "^8.56.0",
 		"jest": "^29.7.0",
 		"mockdate": "^2.0.2",
 		"rimraf": "^5.0.5",
-		"rollup": "^4.9.6",
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-typescript": "^1.0.1",
+		"rollup": "^4.9.6",
 		"tslint": "^6.1.3",
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
-		"@typescript-eslint/eslint-plugin": "^6.20.0",
-		"@typescript-eslint/parser": "^6.20.0",
-		"eslint": "^8.56.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-prettier": "^5.1.3",
 		"moremath": "^3.0.0",
 		"prettier": "^3.2.4",
 		"simplesignal": "^6.0.0"
